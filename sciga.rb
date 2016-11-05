@@ -8,7 +8,7 @@
 # given radius. It then finds the nearest value that is r away from the center
 # of the array(r, r) and isn't set to 1.
 #
-# SCiGA.rb implements the SCiGA algorithm and prints the circumfrence to stderr.
+# SCiGA.rb implements the SCiGA algorithm and prints the circumference to stderr
 # It also writes a pbm of the circle to stdout
 
 $stderr.puts "Radius?";
@@ -29,10 +29,6 @@ end
 
 def set()
     return $circle[$y * $width + $x - 1] = '1';
-end
-
-def unset()
-    return $circle[$prevaccY * $width + $prevaccX - 1] = '0';
 end
 
 def getDist(x, y)
@@ -81,8 +77,8 @@ while(1 == 1)
 
         set();
     else
-
-        $stderr.puts "The circumfrence is #{$circumfrence} pixels in length. \n PI is equal to #{$circumfrence / $diameter}";
+        $stderr.puts("The circumfrence is #{$circumfrence} pixels in length." +
+                        "\nPI is equal to #{$circumfrence / $diameter}");
 
         $stdout.puts "P1\n#{$width.to_i} #{$width.to_i}\n#{$circle.join}"
 
