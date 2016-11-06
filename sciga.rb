@@ -17,9 +17,10 @@ $radius = gets.to_f;
 $center = $radius + 0.5;
 $diameter = $radius * 2;
 $width = $center * 2;
-$circumfrence = 0.0;
+$circumference = 0.0;
 $xSval = ($x = $center);
 $ySval = ($y = $center - $radius);
+$sqrtCnt = $normCnt = 0;
 
 $circle = Array.new($width ** 2, '0');
 
@@ -32,7 +33,7 @@ def set()
 end
 
 def getDist(x, y)
-    return ($radius - Math.sqrt(($center - x.round).abs ** 2 + ($center - y.round).abs ** 2)).abs
+    return ($radius - Math.sqrt(($center - x.round).abs ** 2 + ($center - y.round).abs ** 2)).abs;
 end
 
 while(1 == 1)
@@ -71,14 +72,27 @@ while(1 == 1)
     end
 
     if(access($xSval, $ySval) == '0')
-        $circumfrence += Math.sqrt(($xSval - $x).abs ** 2 + ($ySval - $y).abs ** 2);
+        # The count of diagonal and straight steps can be used to calculate the
+        # circumference of the circle, as
+        #
+        # $circumference = $normCnt + ($sqrtCnt * Math.sqrt(2));
+        if(($xSval - $x).abs > 0 && ($ySval - $y).abs > 0)
+            $sqrtCnt += 1;
+        else
+            $normCnt += 1;
+        end
+
         $x = $xSval;
         $y = $ySval;
 
         set();
     else
-        $stderr.puts("The circumference is #{$circumfrence} pixels in length." +
-                        "\nPI is equal to #{$circumfrence / $diameter}");
+        $circumference = $normCnt + ($sqrtCnt * Math.sqrt(2));
+
+        $stderr.puts("The circumference is #{$circumference} pixels in length." +
+                        "\nPI is equal to #{$circumference / $diameter}" +
+                        "\nThe circumference is equal to #{$normCnt} " +
+                        "+ (#{$sqrtCnt} * sqrt(2))");
 
         $stdout.puts "P1\n#{$width.to_i} #{$width.to_i}\n#{$circle.join}"
 
