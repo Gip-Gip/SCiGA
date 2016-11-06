@@ -15,29 +15,30 @@ $stderr.puts "Radius?";
 
 $sqrt8 = Math.sqrt(8);
 $radius = gets.to_f;
+$center = $radius + 2.5;
 $diameter = $radius * 2;
-$width = $diameter + 2;
+$width = $center * 2;
 $circumfrence = 0.0;
-$xSval = ($x = $radius + 1);
-$ySval = ($y = 0);
+$xSval = ($x = $center);
+$ySval = ($y = $center - $radius);
 
 $circle = Array.new($width ** 2, '0');
 
 def access(x, y)
-    return $circle[y * $width + x - 1];
+    return $circle[y.round * $width + x.round - 1];
 end
 
 def set()
-    return $circle[$y * $width + $x - 1] = '1';
+    return $circle[$y.round * $width + $x.round - 1] = '1';
 end
 
 def getDist(x, y)
-    return ($radius - Math.sqrt(((($radius + 1) - x).abs ** 2) + (($radius - y).abs ** 2))).abs;
+    return ($radius - Math.sqrt(($center - x.round).abs ** 2 + ($center - y.round).abs ** 2)).abs
 end
 
-while(1 == 1)
-    $dist = 0.5;
+$dist = 0;
 
+while(1 == 1)
     if(getDist($x - 1, $y) < $dist && access($x - 1, $y) == '0')
         $dist = getDist($xSval = $x - 1, $ySval = $y);
     end
@@ -84,4 +85,6 @@ while(1 == 1)
 
         exit;
     end
+
+    $dist = 0.5;
 end
