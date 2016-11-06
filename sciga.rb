@@ -77,7 +77,7 @@ while(1 == 1)
 
         set();
     else
-        $stderr.puts("The circumfrence is #{$circumfrence} pixels in length." +
+        $stderr.puts("The circumference is #{$circumfrence} pixels in length." +
                         "\nPI is equal to #{$circumfrence / $diameter}");
 
         $stdout.puts "P1\n#{$width.to_i} #{$width.to_i}\n#{$circle.join}"
