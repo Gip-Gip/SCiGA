@@ -15,7 +15,7 @@ $stderr.puts "Radius?";
 
 $sqrt8 = Math.sqrt(8);
 $radius = gets.to_f;
-$center = $radius + 2.5;
+$center = $radius + 0.5;
 $diameter = $radius * 2;
 $width = $center * 2;
 $circumfrence = 0.0;
@@ -36,7 +36,7 @@ def getDist(x, y)
     return ($radius - Math.sqrt(($center - x.round).abs ** 2 + ($center - y.round).abs ** 2)).abs
 end
 
-$dist = 0;
+$dist = 0.5;
 
 while(1 == 1)
     if(getDist($x - 1, $y) < $dist && access($x - 1, $y) == '0')
@@ -72,7 +72,7 @@ while(1 == 1)
     end
 
     if(access($xSval, $ySval) == '0')
-        $circumfrence += Math.sqrt(($xSval - $x).abs + ($ySval - $y).abs ** 2);
+        $circumfrence += Math.sqrt(($xSval - $x).abs ** 2 + ($ySval - $y).abs ** 2);
         $x = $xSval;
         $y = $ySval;
 
