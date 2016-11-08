@@ -11,6 +11,10 @@
 # SCiGA.rb implements the SCiGA algorithm and prints the circumference to stderr
 # It also writes a pbm of the circle to stdout
 
+
+$stderr.puts "Fill?(y/n)"
+FILL = gets.gsub(/\s+/, "") == "y" ? true : false;
+
 $stderr.puts "Radius?";
 
 $radius = gets.to_f;
@@ -18,6 +22,7 @@ $center = $radius + 0.5;
 $diameter = $radius * 2;
 $width = $center * 2;
 $circumference = 0.0;
+$area = 0;
 $xSval = ($x = $center);
 $ySval = ($y = $center - $radius);
 $sqrtCnt = $normCnt = 0;
@@ -72,29 +77,46 @@ while(1 == 1)
     end
 
     if(access($xSval, $ySval) == '0')
-        # The count of diagonal and straight steps can be used to calculate the
-        # circumference of the circle, as
-        #
-        # $circumference = $normCnt + ($sqrtCnt * Math.sqrt(2));
-        if(($xSval - $x).abs > 0 && ($ySval - $y).abs > 0)
-            $sqrtCnt += 1;
-        else
-            $normCnt += 1;
-        end
-
         $x = $xSval;
         $y = $ySval;
 
         set();
     else
-        $circumference = $normCnt + ($sqrtCnt * Math.sqrt(2));
+        i = 0;
+        run = 0;
 
-        $stderr.puts("The circumference is #{$circumference} pixels in length." +
-                        "\nPI is equal to #{$circumference / $diameter}" +
-                        "\nThe circumference is equal to #{$normCnt} " +
-                        "+ (#{$sqrtCnt} * sqrt(2))");
+        while(i < $circle.length)
+            while($circle[i] == '0' && i < $circle.length)
+                i += 1
+            end
 
-        $stdout.puts "P1\n#{$width.to_i} #{$width.to_i}\n#{$circle.join}"
+            while($circle[i] == '1' && i < $circle.length)
+                run += 1;
+                i += 1;
+            end
+
+            if((i % $width) < $center)
+                while($circle[i] == '0' && i < $circle.length)
+                    if(FILL)
+                        $circle[i] = '1';
+                    end
+
+                    run += 1;
+                    i += 1
+                end
+
+                run += 1;
+                i += 1;
+            end
+
+            $area += run;
+
+            run = 0;
+        end
+
+        $stderr.puts("PI equals #{($area / ($radius ** 2)).to_s}. Area is #{$area} vs predicted area of #{($radius ** 2) * Math::PI}");
+
+        $stdout.print("P1\n#{$width.to_i} #{$width.to_i}\n#{$circle.join}");
 
         exit;
     end
